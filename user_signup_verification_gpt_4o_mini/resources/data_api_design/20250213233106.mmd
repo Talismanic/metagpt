@@ -1,0 +1,36 @@
+
+classDiagram
+    class User {
+        -id: int
+        -name: str
+        -email: str
+        -password_hash: str
+        -is_active: bool
+        +__init__(name: str, email: str, password: str)
+        +set_password(password: str) None
+        +check_password(password: str) bool
+    }
+    class UserManager {
+        +create_user(name: str, email: str, password: str) bool
+        +is_email_unique(email: str) bool
+        +send_verification_email(user: User) None
+        +activate_user(email: str) None
+    }
+    class SignupForm {
+        -name: str
+        -email: str
+        -password: str
+        +validate() bool
+    }
+    class LoginForm {
+        -email: str
+        -password: str
+        +validate() bool
+    }
+    class App {
+        +run() None
+    }
+    App --> UserManager
+    UserManager --> User
+    App --> SignupForm
+    App --> LoginForm

@@ -1,0 +1,28 @@
+
+sequenceDiagram
+    participant A as App
+    participant UM as UserManager
+    participant U as User
+    participant SF as SignupForm
+    participant LF as LoginForm
+    A->>SF: render signup form
+    SF->>A: user submits form
+    A->>UM: create_user(name, email, password)
+    UM->>UM: is_email_unique(email)
+    alt email exists
+        UM-->>A: return error
+        A->>SF: display error message
+    else email unique
+        UM->>U: create new user
+        UM->>UM: send_verification_email(U)
+        UM-->>A: return success
+        A->>SF: display success message
+    end
+    A->>LF: render login form
+    LF->>A: user submits login form
+    A->>UM: check credentials(email, password)
+    alt credentials match
+        A-->>LF: display welcome message
+    else credentials do not match
+        A-->>LF: display error message
+    end
